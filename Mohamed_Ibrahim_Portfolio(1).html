@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Ibrahim Elkhodary | Engineering Portfolio</title>
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#17202a;--muted:#667085;--accent:#2563eb;--line:#e5e7eb}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1050px;margin:auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font-weight:700;font-size:18px}.navlinks a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:14px}
+.hero{padding:75px 0 65px}.eyebrow{color:var(--accent);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px}
+h1{font-size:52px;line-height:1.05;margin:12px 0}.hero p{max-width:720px;color:var(--muted);font-size:18px}
+.buttons{margin-top:26px}.btn{display:inline-block;padding:11px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;margin-right:10px}.primary{background:var(--accent);color:white}.secondary{border:1px solid var(--line);color:var(--text);background:white}
+section{padding:55px 0}h2{font-size:28px;margin:0 0 8px}.subtitle{color:var(--muted);margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}.card h3{margin:0 0 8px;font-size:19px}.card p{color:var(--muted);font-size:14px;margin:0}.tag{display:inline-block;background:#eef2ff;color:#334155;border-radius:999px;padding:4px 9px;font-size:12px;margin:12px 5px 0 0}
+.skills{display:flex;flex-wrap:wrap;gap:10px}.skill{background:white;border:1px solid var(--line);padding:10px 14px;border-radius:8px;font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}.contact{background:#111827;color:white;border-radius:14px;padding:35px}.contact p{color:#d1d5db}.contact a{color:white}
+footer{padding:30px 0;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+@media(max-width:700px){h1{font-size:39px}.grid,.two{grid-template-columns:1fr}.navlinks{display:none}.hero{padding-top:45px}}
+</style>
+</head>
+<body>
+<div class="container">
+<nav>
+  <div class="logo">Mohamed Ibrahim</div>
+  <div class="navlinks"><a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a><a href="https://github.com/khodary555" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/khodary67/" target="_blank">LinkedIn</a></div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">Computer & Communications Engineering</div>
+  <h1>Building software and engineering projects.</h1>
+  <p>I'm Mohamed Ibrahim Elkhodary, a Computer and Communications Engineering student at Alexandria University, interested in software development, problem solving, and hardware-based systems.</p>
+  <div class="buttons">
+    <a class="btn primary" href="#projects">View Projects</a>
+    <a class="btn secondary" href="mailto:khodarydone@gmail.com">Contact Me</a>
+  </div>
+</header>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p class="subtitle">Engineering student focused on practical learning and technical problem solving.</p>
+  <div class="two">
+    <div>
+      <p>I am studying Computer & Communications Engineering at Alexandria University, with an expected graduation year of 2028 and a current CGPA of 3.38.</p>
+      <p>My academic work combines programming with digital logic and engineering systems. I enjoy turning problems into working software and practical hardware projects.</p>
+    </div>
+    <div class="card">
+      <h3>Education</h3>
+      <p><strong>Alexandria University – Faculty of Engineering</strong></p>
+      <p>Computer & Communications Department</p>
+      <p>Expected Graduation: 2028</p>
+      <p>CGPA: 3.38</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Featured Projects</h2>
+  <p class="subtitle">Selected academic and engineering projects.</p>
+  <div class="grid">
+    <div class="card">
+      <h3>AVL Dictionary & Spell Checker</h3>
+      <p>Built a C program using a self-balancing AVL tree to store and search dictionary words. Implemented tree rotations and a suggestion engine using in-order predecessor/successor lookups.</p>
+      <span class="tag">C</span><span class="tag">AVL Trees</span><span class="tag">Data Structures</span>
+    </div>
+    <div class="card">
+      <h3>Banking System</h3>
+      <p>Developed a complete C banking system with account management, deposits, withdrawals, balance inquiries, and transaction handling.</p>
+      <span class="tag">C</span><span class="tag">Programming</span><span class="tag">Problem Solving</span>
+    </div>
+    <div class="card">
+      <h3>Digital Clock & Timer</h3>
+      <p>Designed a hardware-based digital clock and timer using seven-segment displays, counters, buzzer alerts, and start/stop/reset functionality, including 12/24-hour switching.</p>
+      <span class="tag">Digital Logic</span><span class="tag">Hardware</span><span class="tag">Counters</span>
+    </div>
+    <div class="card">
+      <h3>Letter Display Logic Circuit</h3>
+      <p>Built a hardware logic circuit capable of displaying letters using digital logic components and display systems.</p>
+      <span class="tag">Digital Logic</span><span class="tag">Circuit Design</span>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <p class="subtitle">Technical tools and professional strengths.</p>
+  <div class="skills">
+    <span class="skill">C</span><span class="skill">C++</span><span class="skill">Python</span>
+    <span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">MATLAB</span>
+    <span class="skill">Simulink</span><span class="skill">Hardware & Logic Circuit Design</span>
+    <span class="skill">Problem Solving</span><span class="skill">Debugging</span>
+    <span class="skill">Photoshop</span><span class="skill">Premiere Pro</span><span class="skill">Illustrator</span>
+  </div>
+</section>
+
+<section>
+  <div class="two">
+    <div>
+      <h2>Certifications</h2>
+      <p>• MATLAB Onramp</p><p>• Simulink Onramp</p>
+    </div>
+    <div>
+      <h2>Languages</h2>
+      <p>Arabic — Native</p><p>English — Fluent</p><p>French — Conversational</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Beyond Engineering</h2>
+  <div class="card">
+    <h3>Competitive Swimming</h3>
+    <p>Competitive swimmer at Al Ittihad Alexandria Club, developing discipline, consistency, teamwork, and the ability to perform under pressure.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact">
+    <h2>Let's Connect</h2>
+    <p>I'm currently interested in software and programming internship opportunities.</p>
+    <p><strong>Email:</strong> <a href="mailto:khodarydone@gmail.com">khodarydone@gmail.com</a><br>
+    <strong>Phone:</strong> 01275998807<br>
+    <strong>Location:</strong> Alexandria, Egypt</p>
+    <p><a href="https://github.com/khodary555" target="_blank">GitHub</a> &nbsp;•&nbsp; <a href="https://www.linkedin.com/in/khodary67/" target="_blank">LinkedIn</a></p>
+  </div>
+</section>
+
+<footer>© 2026 Mohamed Ibrahim Elkhodary · Engineering Portfolio</footer>
+</div>
+</body>
+</html>
