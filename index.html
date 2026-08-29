@@ -1,140 +1,576 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mohamed Ibrahim Elkhodary | Engineering Portfolio</title>
+<title>Mohamed Ibrahim Elkhodary — Engineering Portfolio</title>
+<meta name="description" content="Computer & Communications Engineering student — software, digital logic, and hardware projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f7f8fa;--card:#fff;--text:#17202a;--muted:#667085;--accent:#2563eb;--line:#e5e7eb}
-*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-.container{max-width:1050px;margin:auto;padding:0 24px}
-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
-.logo{font-weight:700;font-size:18px}.navlinks a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:14px}
-.hero{padding:75px 0 65px}.eyebrow{color:var(--accent);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px}
-h1{font-size:52px;line-height:1.05;margin:12px 0}.hero p{max-width:720px;color:var(--muted);font-size:18px}
-.buttons{margin-top:26px}.btn{display:inline-block;padding:11px 18px;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;margin-right:10px}.primary{background:var(--accent);color:white}.secondary{border:1px solid var(--line);color:var(--text);background:white}
-section{padding:55px 0}h2{font-size:28px;margin:0 0 8px}.subtitle{color:var(--muted);margin-top:0}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}.card h3{margin:0 0 8px;font-size:19px}.card p{color:var(--muted);font-size:14px;margin:0}.tag{display:inline-block;background:#eef2ff;color:#334155;border-radius:999px;padding:4px 9px;font-size:12px;margin:12px 5px 0 0}
-.skills{display:flex;flex-wrap:wrap;gap:10px}.skill{background:white;border:1px solid var(--line);padding:10px 14px;border-radius:8px;font-size:14px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}.contact{background:#111827;color:white;border-radius:14px;padding:35px}.contact p{color:#d1d5db}.contact a{color:white}
-footer{padding:30px 0;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
-@media(max-width:700px){h1{font-size:39px}.grid,.two{grid-template-columns:1fr}.navlinks{display:none}.hero{padding-top:45px}}
+
+/* ============================================================
+   TOKENS — three tiers, HeroUI-style: base / theme / calculated
+   ============================================================ */
+:root{
+  /* base — do not change per theme */
+  --font-display:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --font-body:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+  --radius:3px;
+  --radius-lg:6px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:24px; --space-6:32px; --space-7:48px; --space-8:64px; --space-9:96px;
+  --container:1080px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+html[data-theme="dark"]{
+  --bg:#0c1c16;
+  --bg-elevated:#12291f;
+  --bg-elevated-2:#173428;
+  --foreground:#eef4ee;
+  --muted:#93aa9d;
+  --muted-2:#5f7568;
+  --border:#20402f;
+  --border-strong:#2c5a3f;
+  --accent:#d98f4a;
+  --accent-foreground:#1a0f04;
+  --signal:#5fd4c4;
+  --signal-foreground:#04211d;
+  --shadow:0 20px 40px -20px rgba(0,0,0,.6);
+}
+html[data-theme="light"]{
+  --bg:#f1f5ee;
+  --bg-elevated:#ffffff;
+  --bg-elevated-2:#e7efe3;
+  --foreground:#132018;
+  --muted:#4d5f52;
+  --muted-2:#7c8c80;
+  --border:#d3e0cc;
+  --border-strong:#b3c8a8;
+  --accent:#a8611e;
+  --accent-foreground:#fff8f0;
+  --signal:#0e8f7f;
+  --signal-foreground:#eafffb;
+  --shadow:0 20px 40px -24px rgba(20,40,25,.25);
+}
+/* calculated — derived via color-mix, same on both themes */
+:root{
+  --accent-hover: color-mix(in oklab, var(--accent) 88%, white 12%);
+  --accent-soft: color-mix(in oklab, var(--accent) 16%, var(--bg) 84%);
+  --signal-soft: color-mix(in oklab, var(--signal) 18%, var(--bg) 82%);
+  --border-soft: color-mix(in oklab, var(--border) 60%, transparent 40%);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+body{
+  margin:0;background:var(--bg);color:var(--foreground);
+  font-family:var(--font-body);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+::selection{background:var(--accent);color:var(--accent-foreground)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+
+.container{max-width:var(--container);margin:0 auto;padding:0 24px}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in oklab, var(--bg) 82%, transparent 18%);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border-soft);
+}
+.nav__inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;max-width:var(--container);margin:0 auto;
+}
+.nav__mark{
+  font-family:var(--font-display);font-weight:600;font-size:14px;
+  letter-spacing:.02em;display:flex;align-items:center;gap:8px;
+}
+.nav__mark .dot{width:7px;height:7px;background:var(--signal);border-radius:1px;box-shadow:0 0 8px var(--signal)}
+.nav__links{display:flex;align-items:center;gap:28px}
+.nav__links a{
+  font-family:var(--font-display);font-size:12px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  transition:color .2s var(--ease);
+}
+.nav__links a:hover{color:var(--signal)}
+.theme-toggle{
+  width:34px;height:34px;border-radius:var(--radius);
+  border:1px solid var(--border-strong);background:var(--bg-elevated);
+  color:var(--foreground);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s var(--ease), transform .15s var(--ease);
+}
+.theme-toggle:hover{border-color:var(--signal);transform:translateY(-1px)}
+.theme-toggle svg{width:16px;height:16px}
+.icon-sun{display:none}
+html[data-theme="light"] .icon-moon{display:none}
+html[data-theme="light"] .icon-sun{display:block}
+@media (max-width:760px){ .nav__links{display:none} }
+
+/* ============================================================
+   SIGNAL RAIL — the signature element
+   A continuous trace runs down the left of the content column.
+   Each section gets a "via" node; nodes light up on scroll.
+   ============================================================ */
+.rail-wrap{position:relative}
+.rail-wrap::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom, var(--border-strong), var(--border-strong) 96%, transparent);
+  opacity:.7;
+}
+@media (max-width:900px){ .rail-wrap::before{ left:-2px; } }
+
+.section{position:relative;padding:var(--space-8) 0 var(--space-8) var(--space-7)}
+.section:first-of-type{padding-top:var(--space-6)}
+@media (max-width:900px){ .section{padding-left:var(--space-6)} }
+
+.via{
+  position:absolute;left:-6px;top:calc(var(--space-8) + 2px);
+  width:13px;height:13px;border:1px solid var(--border-strong);
+  background:var(--bg-elevated);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .5s var(--ease), box-shadow .5s var(--ease);
+}
+.section:first-of-type .via{top:var(--space-6)}
+.via::after{
+  content:"";width:5px;height:5px;border-radius:1px;background:var(--muted-2);
+  transition:background .5s var(--ease);
+}
+.section.is-active .via{border-color:var(--signal);box-shadow:0 0 14px var(--signal-soft)}
+.section.is-active .via::after{background:var(--signal)}
+
+.eyebrow{
+  font-family:var(--font-display);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--signal);margin:0 0 10px;
+  display:flex;align-items:center;gap:8px;
+}
+.designator{
+  font-family:var(--font-display);font-size:11px;color:var(--muted);
+  border:1px solid var(--border);padding:2px 6px;border-radius:2px;
+}
+
+h2.title{
+  font-family:var(--font-display);font-weight:600;font-size:22px;
+  letter-spacing:.01em;margin:0 0 28px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding:var(--space-9) 0 var(--space-8);position:relative}
+.hero .eyebrow{margin-bottom:18px}
+.hero h1{
+  font-family:var(--font-display);font-weight:600;
+  font-size:clamp(34px,5.4vw,58px);line-height:1.08;letter-spacing:-.01em;
+  margin:0 0 22px;max-width:16ch;
+}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lede{
+  color:var(--muted);font-size:17px;max-width:52ch;margin:0 0 34px;
+}
+.hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+
+.btn{
+  font-family:var(--font-body);font-weight:600;font-size:14px;
+  padding:12px 20px;border-radius:var(--radius);cursor:pointer;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  border:1px solid transparent;transition:transform .15s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+}
+.btn:hover{transform:translateY(-1px)}
+.btn--primary{background:var(--accent);color:var(--accent-foreground)}
+.btn--primary:hover{background:var(--accent-hover)}
+.btn--ghost{background:transparent;border-color:var(--border-strong);color:var(--foreground)}
+.btn--ghost:hover{border-color:var(--signal)}
+
+/* signal divider: sine -> square, drawn on load */
+.signal-divider{width:100%;max-width:560px;height:46px;display:block}
+.signal-divider path{
+  fill:none;stroke:var(--signal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:900;stroke-dashoffset:900;
+  animation:draw 2.2s var(--ease) .3s forwards;
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* ============================================================
+   ABOUT — bio + datasheet card
+   ============================================================ */
+.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--space-7)}
+@media (max-width:800px){ .about-grid{grid-template-columns:1fr} }
+.about-grid p{color:var(--muted);margin:0 0 16px;max-width:56ch}
+.about-grid p strong{color:var(--foreground)}
+
+.datasheet{
+  background:var(--bg-elevated);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:22px 22px 8px;box-shadow:var(--shadow);
+}
+.datasheet__head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:14px;margin-bottom:14px;border-bottom:1px dashed var(--border-strong);
+}
+.datasheet__head .part-no{font-family:var(--font-display);font-size:12px;color:var(--muted)}
+.datasheet__row{
+  display:flex;justify-content:space-between;gap:16px;
+  padding:9px 0;border-bottom:1px solid var(--border-soft);
+  font-size:13.5px;
+}
+.datasheet__row:last-child{border-bottom:none}
+.datasheet__row dt{color:var(--muted);font-family:var(--font-display);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding-top:2px}
+.datasheet__row dd{margin:0;text-align:right;font-weight:500}
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+.skill-group{margin-bottom:22px}
+.skill-group__label{
+  font-family:var(--font-display);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 10px;
+}
+.pins{display:flex;flex-wrap:wrap;gap:8px}
+.pin{
+  font-family:var(--font-display);font-size:12.5px;
+  background:var(--bg-elevated);border:1px solid var(--border);
+  padding:7px 12px;border-radius:var(--radius);
+  transition:border-color .2s var(--ease), color .2s var(--ease);
+}
+.pin:hover{border-color:var(--signal);color:var(--signal)}
+
+/* ============================================================
+   CERTIFICATIONS
+   ============================================================ */
+.certs{display:flex;flex-direction:column;gap:10px}
+.cert{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;
+  background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);
+  text-decoration:none;color:inherit;transition:border-color .2s var(--ease), transform .15s var(--ease);
+}
+.cert:hover{border-color:var(--signal);transform:translateX(3px)}
+.cert__chip{
+  flex-shrink:0;width:38px;height:38px;border-radius:2px;
+  background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:11px;
+}
+.cert__body b{display:block;font-size:14px}
+.cert__body span{font-size:12.5px;color:var(--muted)}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media (max-width:760px){ .project-grid{grid-template-columns:1fr} }
+.project-card{
+  background:var(--bg-elevated);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:22px;display:flex;flex-direction:column;
+  transition:border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.project-card:hover{border-color:var(--border-strong);transform:translateY(-3px);box-shadow:var(--shadow)}
+.project-card__head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px}
+.project-card h3{margin:0;font-size:16px;font-weight:600}
+.project-card p{color:var(--muted);font-size:13.5px;margin:0 0 16px;flex-grow:1}
+.project-card__tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tag{
+  font-family:var(--font-display);font-size:10.5px;letter-spacing:.03em;
+  color:var(--muted);border:1px solid var(--border-strong);
+  padding:3px 8px;border-radius:2px;
+}
+.tag--team{color:var(--signal);border-color:var(--signal)}
+.repo-link{
+  font-family:var(--font-display);font-size:12.5px;color:var(--accent);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  margin-top:auto;
+}
+.repo-link:hover{color:var(--accent-hover);text-decoration:underline}
+.repo-link .prompt{color:var(--muted-2)}
+
+/* ============================================================
+   BEYOND — sine-wave section, deliberately breaks the digital motif
+   ============================================================ */
+.beyond-card{
+  background:var(--bg-elevated);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:26px;display:flex;gap:22px;align-items:center;
+}
+@media (max-width:600px){ .beyond-card{flex-direction:column;align-items:flex-start} }
+.wave-badge{flex-shrink:0;width:64px;height:64px}
+.beyond-card h3{margin:0 0 6px;font-size:16px}
+.beyond-card p{margin:0;color:var(--muted);font-size:13.5px}
+
+/* ============================================================
+   CONTACT — terminal card
+   ============================================================ */
+.terminal{
+  background:#08140f;border:1px solid var(--border-strong);
+  border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);
+}
+html[data-theme="light"] .terminal{background:#0e1f16}
+.terminal__bar{
+  display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid #1c3427;
+}
+.terminal__bar span{width:9px;height:9px;border-radius:50%;background:#2c5a3f}
+.terminal__body{padding:22px 24px 26px;font-family:var(--font-display);font-size:13.5px;color:#c9e6d8}
+.terminal__body .muted{color:#6b8f7c}
+.terminal__body .accent{color:#e3a568}
+.terminal__body .line{margin-bottom:10px}
+.terminal__cta{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  padding:32px 0 40px 0;text-align:center;color:var(--muted-2);
+  font-size:12.5px;font-family:var(--font-display);
+  border-top:1px solid var(--border-soft);margin-top:var(--space-6);
+}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease), transform .6s var(--ease)}
+.reveal.is-active{opacity:1;transform:none}
 </style>
 </head>
 <body>
-<div class="container">
-<nav>
-  <div class="logo">Mohamed Ibrahim</div>
-  <div class="navlinks"><a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a><a href="https://github.com/khodary555" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/khodary67/" target="_blank">LinkedIn</a></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <div class="nav__mark"><span class="dot"></span>M. IBRAHIM ELKHODARY</div>
+    <div class="nav__links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com/khodary555" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
 </nav>
 
-<header class="hero">
-  <div class="eyebrow">Computer & Communications Engineering</div>
-  <h1>Building software and engineering projects.</h1>
-  <p>I'm Mohamed Ibrahim Elkhodary, a Computer and Communications Engineering student at Alexandria University, interested in software development, problem solving, and hardware-based systems.</p>
-  <div class="buttons">
-    <a class="btn primary" href="#projects">View Projects</a>
-    <a class="btn secondary" href="mailto:khodarydone@gmail.com">Contact Me</a>
-  </div>
-</header>
+<div class="container rail-wrap">
 
-<section id="about">
-  <h2>About Me</h2>
-  <p class="subtitle">Engineering student focused on practical learning and technical problem solving.</p>
-  <div class="two">
-    <div>
-      <p>I am studying Computer & Communications Engineering at Alexandria University, with an expected graduation year of 2028 and a current CGPA of 3.38.</p>
-      <p>My academic work combines programming with digital logic and engineering systems. I enjoy turning problems into working software and practical hardware projects.</p>
+  <!-- HERO -->
+  <section class="section hero" id="top">
+    <span class="via"></span>
+    <p class="eyebrow">Computer &amp; Communications Engineering</p>
+    <h1>Building the signal path between <em>hardware</em> and software.</h1>
+    <p class="lede">I'm Mohamed Ibrahim Elkhodary, an engineering student at Alexandria University. I move between digital logic circuits and C++ systems — and like most signals, the interesting part is what happens at the boundary.</p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#projects">View Projects</a>
+      <a class="btn btn--ghost" href="#contact">Get in Touch</a>
     </div>
-    <div class="card">
-      <h3>Education</h3>
-      <p><strong>Alexandria University – Faculty of Engineering</strong></p>
-      <p>Computer & Communications Department</p>
-      <p>Expected Graduation: 2028</p>
-      <p>CGPA: 3.38</p>
-    </div>
-  </div>
-</section>
+    <svg class="signal-divider" viewBox="0 0 560 46" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,23 C20,4 40,4 60,23 C80,42 100,42 120,23 C140,4 160,4 180,23 L200,23 L200,6 L220,6 L220,40 L240,40 L240,6 L260,6 L260,40 L280,40 L280,6 L300,6 L300,40 L320,40 L320,23 L560,23"/>
+    </svg>
+  </section>
 
-<section id="projects">
-  <h2>Featured Projects</h2>
-  <p class="subtitle">Selected academic and engineering projects.</p>
-  <div class="grid">
-    <div class="card">
-      <h3>AVL Dictionary & Spell Checker</h3>
-      <p>Built a C program using a self-balancing AVL tree to store and search dictionary words. Implemented tree rotations and a suggestion engine using in-order predecessor/successor lookups.</p>
-      <span class="tag">C</span><span class="tag">AVL Trees</span><span class="tag">Data Structures</span>
-    </div>
-    <div class="card">
-      <h3>Banking System</h3>
-      <p>Developed a complete C banking system with account management, deposits, withdrawals, balance inquiries, and transaction handling.</p>
-      <span class="tag">C</span><span class="tag">Programming</span><span class="tag">Problem Solving</span>
-    </div>
-    <div class="card">
-      <h3>Digital Clock & Timer</h3>
-      <p>Designed a hardware-based digital clock and timer using seven-segment displays, counters, buzzer alerts, and start/stop/reset functionality, including 12/24-hour switching.</p>
-      <span class="tag">Digital Logic</span><span class="tag">Hardware</span><span class="tag">Counters</span>
-    </div>
-    <div class="card">
-      <h3>Letter Display Logic Circuit</h3>
-      <p>Built a hardware logic circuit capable of displaying letters using digital logic components and display systems.</p>
-      <span class="tag">Digital Logic</span><span class="tag">Circuit Design</span>
-    </div>
-  </div>
-</section>
-
-<section id="skills">
-  <h2>Skills</h2>
-  <p class="subtitle">Technical tools and professional strengths.</p>
-  <div class="skills">
-    <span class="skill">C</span><span class="skill">C++</span><span class="skill">Python</span>
-    <span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">MATLAB</span>
-    <span class="skill">Simulink</span><span class="skill">Hardware & Logic Circuit Design</span>
-    <span class="skill">Problem Solving</span><span class="skill">Debugging</span>
-    <span class="skill">Photoshop</span><span class="skill">Premiere Pro</span><span class="skill">Illustrator</span>
-  </div>
-</section>
-
-<section>
-  <div class="two">
-    <div>
-      <h2>Certifications</h2>
-      <a href="https://www.credly.com/badges/7123040f-3ef7-4604-923d-dd40201f68ac/public_url" target="_blank" style="text-decoration:none;color:inherit"><div class="card" style="margin-bottom:14px;display:flex;align-items:center;gap:14px;cursor:pointer">
-        <div style="flex-shrink:0;width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#ff9900,#232f3e);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px">AWS</div>
-        <div>
-          <h3 style="margin:0 0 3px;font-size:16px">AWS Academy Graduate — Cloud Foundations</h3>
-          <p style="margin:0">Amazon Web Services Academy · Aug 2026 · <span style="color:var(--accent);font-weight:700">Verify on Credly ↗</span></p>
+  <!-- ABOUT -->
+  <section class="section reveal" id="about">
+    <span class="via"></span>
+    <p class="eyebrow"><span class="designator">U0</span> About</p>
+    <h2 class="title">Spec sheet</h2>
+    <div class="about-grid">
+      <div>
+        <p>I'm studying <strong>Computer &amp; Communications Engineering</strong> at Alexandria University, expecting to graduate in 2028 with a current CGPA of <strong>3.38</strong>.</p>
+        <p>My coursework runs across both sides of the stack — digital logic design, circuit analysis, and embedded-style systems on one hand; C/C++, object-oriented design, and software testing on the other. I like projects that force both skill sets to talk to each other.</p>
+        <p>Outside the lab, I'm a competitive swimmer — a different kind of signal, continuous rather than digital, but it runs on the same discipline.</p>
+      </div>
+      <div class="datasheet">
+        <div class="datasheet__head">
+          <b>STUDENT — SPEC</b>
+          <span class="part-no">REV 2026</span>
         </div>
-      </div></a>
-      <p>• <a href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=0d2aa7cb-b789-40c7-a27c-5171561e6f5d&" target="_blank" style="color:var(--accent);text-decoration:underline">MATLAB Onramp</a></p><p>• <a href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=951aeb15-86af-4f8c-9e06-06cb8ed7e8ec&" target="_blank" style="color:var(--accent);text-decoration:underline">Simulink Onramp</a></p>
+        <dl style="margin:0">
+          <div class="datasheet__row"><dt>Institution</dt><dd>Alexandria University</dd></div>
+          <div class="datasheet__row"><dt>Faculty</dt><dd>Engineering</dd></div>
+          <div class="datasheet__row"><dt>Department</dt><dd>Computer &amp; Communications</dd></div>
+          <div class="datasheet__row"><dt>Grad (Exp.)</dt><dd>2028</dd></div>
+          <div class="datasheet__row"><dt>CGPA</dt><dd>3.38</dd></div>
+          <div class="datasheet__row"><dt>Location</dt><dd>Alexandria, EG</dd></div>
+        </dl>
+      </div>
     </div>
-    <div>
-      <h2>Languages</h2>
-      <p>Arabic — Native</p><p>English — Fluent</p><p>French — Conversational</p>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section reveal" id="skills">
+    <span class="via"></span>
+    <p class="eyebrow"><span class="designator">U1</span> Skills</p>
+    <h2 class="title">Pinout</h2>
+
+    <div class="skill-group">
+      <p class="skill-group__label">Programming</p>
+      <div class="pins"><span class="pin">C</span><span class="pin">C++</span><span class="pin">Python</span></div>
     </div>
-  </div>
-</section>
+    <div class="skill-group">
+      <p class="skill-group__label">Web</p>
+      <div class="pins"><span class="pin">HTML</span><span class="pin">CSS</span></div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group__label">Engineering Tools</p>
+      <div class="pins"><span class="pin">MATLAB</span><span class="pin">Simulink</span><span class="pin">Hardware &amp; Logic Circuit Design</span></div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group__label">Creative Tools</p>
+      <div class="pins"><span class="pin">Photoshop</span><span class="pin">Premiere Pro</span><span class="pin">Illustrator</span></div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group__label">Working Style</p>
+      <div class="pins"><span class="pin">Problem Solving</span><span class="pin">Debugging</span></div>
+    </div>
+  </section>
 
-<section>
-  <h2>Beyond Engineering</h2>
-  <div class="card">
-    <h3>Competitive Swimming</h3>
-    <p>Competitive swimmer at Al Ittihad Alexandria Club, developing discipline, consistency, teamwork, and the ability to perform under pressure.</p>
-  </div>
-</section>
+  <!-- CERTIFICATIONS -->
+  <section class="section reveal" id="certifications">
+    <span class="via"></span>
+    <p class="eyebrow"><span class="designator">U2</span> Certifications</p>
+    <h2 class="title">Verified</h2>
+    <div class="certs">
+      <a class="cert" href="https://www.credly.com/badges/7123040f-3ef7-4604-923d-dd40201f68ac/public_url" target="_blank" rel="noopener">
+        <span class="cert__chip">AWS</span>
+        <span class="cert__body"><b>AWS Academy Graduate — Cloud Foundations</b><span>Amazon Web Services Academy · Verify on Credly ↗</span></span>
+      </a>
+      <a class="cert" href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=0d2aa7cb-b789-40c7-a27c-5171561e6f5d&" target="_blank" rel="noopener">
+        <span class="cert__chip">MLB</span>
+        <span class="cert__body"><b>MATLAB Onramp</b><span>MathWorks · View certificate ↗</span></span>
+      </a>
+      <a class="cert" href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=951aeb15-86af-4f8c-9e06-06cb8ed7e8ec&" target="_blank" rel="noopener">
+        <span class="cert__chip">SIM</span>
+        <span class="cert__body"><b>Simulink Onramp</b><span>MathWorks · View certificate ↗</span></span>
+      </a>
+    </div>
+  </section>
 
-<section id="contact">
-  <div class="contact">
-    <h2>Let's Connect</h2>
-    <p>I'm currently interested in software and programming internship opportunities.</p>
-    <p><strong>Email:</strong> <a href="mailto:khodarydone@gmail.com">khodarydone@gmail.com</a><br>
-    <strong>Phone:</strong> 01275998807<br>
-    <strong>Location:</strong> Alexandria, Egypt</p>
-    <p><a href="https://github.com/khodary555" target="_blank">GitHub</a> &nbsp;•&nbsp; <a href="https://www.linkedin.com/in/khodary67/" target="_blank">LinkedIn</a></p>
-  </div>
-</section>
+  <!-- PROJECTS -->
+  <section class="section reveal" id="projects">
+    <span class="via"></span>
+    <p class="eyebrow"><span class="designator">U3</span> Projects</p>
+    <h2 class="title">Built &amp; tested</h2>
+    <div class="project-grid">
 
-<footer>© 2026 Mohamed Ibrahim Elkhodary · Engineering Portfolio</footer>
+      <div class="project-card">
+        <div class="project-card__head"><h3>WhatsApp-Style Console Messaging App</h3></div>
+        <p>Team project: a console-based messaging app modeled on WhatsApp's core flow, structured around classes for users, chats, and messages.</p>
+        <div class="project-card__tags"><span class="tag">C++</span><span class="tag">OOP</span><span class="tag tag--team">TEAM</span></div>
+        <a class="repo-link" href="https://github.com/mohamed8588/ST2026_G6_Project1" target="_blank" rel="noopener"><span class="prompt">&gt;</span> view_repo</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card__head"><h3>Big Integer Class</h3></div>
+        <p>Team project: a custom BigInteger class supporting arithmetic beyond native integer limits via operator overloading.</p>
+        <div class="project-card__tags"><span class="tag">C++</span><span class="tag">OOP</span><span class="tag tag--team">TEAM</span></div>
+        <a class="repo-link" href="https://github.com/perohjohn/project-2" target="_blank" rel="noopener"><span class="prompt">&gt;</span> view_repo</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card__head"><h3>Hospital Management System</h3></div>
+        <p>Team project: an OOP hospital-workflow simulator — patient records, appointment scheduling, dual emergency triage (FIFO + max-heap by severity), billing.</p>
+        <div class="project-card__tags"><span class="tag">C++</span><span class="tag">STL</span><span class="tag tag--team">TEAM</span></div>
+        <a class="repo-link" href="https://github.com/Rahma1581/ST2026_G9_Project3" target="_blank" rel="noopener"><span class="prompt">&gt;</span> view_repo</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card__head"><h3>AVL Dictionary &amp; Spell Checker</h3></div>
+        <p>A self-balancing AVL tree storing and searching dictionary words, with tree rotations and a suggestion engine using in-order predecessor/successor lookups.</p>
+        <div class="project-card__tags"><span class="tag">C</span><span class="tag">AVL Trees</span><span class="tag">Data Structures</span></div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card__head"><h3>Banking System</h3></div>
+        <p>A complete C banking system with account management, deposits, withdrawals, balance inquiries, and transaction handling.</p>
+        <div class="project-card__tags"><span class="tag">C</span><span class="tag">Programming</span></div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card__head"><h3>Digital Clock &amp; Timer</h3></div>
+        <p>A hardware-based digital clock and timer using seven-segment displays, counters, buzzer alerts, start/stop/reset, and 12/24-hour switching.</p>
+        <div class="project-card__tags"><span class="tag">Digital Logic</span><span class="tag">Hardware</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BEYOND -->
+  <section class="section reveal" id="beyond">
+    <span class="via"></span>
+    <p class="eyebrow"><span class="designator">U4</span> Beyond Engineering</p>
+    <h2 class="title">A different waveform</h2>
+    <div class="beyond-card">
+      <svg class="wave-badge" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M2,32 C10,14 18,14 26,32 C34,50 42,50 50,32 C54,23 58,23 62,32" fill="none" stroke="var(--signal)" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h3>Competitive Swimming — Al Ittihad Alexandria Club</h3>
+        <p>Long-term competitive swimmer, building discipline, consistency, teamwork, and the ability to perform under pressure — the analog counterpart to a very digital coursework load.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section reveal" id="contact">
+    <span class="via"></span>
+    <p class="eyebrow"><span class="designator">U5</span> Contact</p>
+    <h2 class="title">Get in touch</h2>
+    <div class="terminal">
+      <div class="terminal__bar"><span></span><span></span><span></span></div>
+      <div class="terminal__body">
+        <div class="line"><span class="muted">$</span> whoami --engineer</div>
+        <div class="line">Mohamed Ibrahim Elkhodary <span class="muted">— Alexandria, Egypt</span></div>
+        <div class="line"><span class="accent">email</span>&nbsp;&nbsp;khodarydone@gmail.com</div>
+        <div class="line"><span class="accent">phone</span>&nbsp;&nbsp;01275998807</div>
+        <div class="line"><span class="accent">status</span>&nbsp;open to software &amp; programming internships</div>
+        <div class="terminal__cta">
+          <a class="btn btn--primary" href="mailto:khodarydone@gmail.com">Email Me</a>
+          <a class="btn btn--ghost" href="https://github.com/khodary555" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn--ghost" href="https://www.linkedin.com/in/khodary67/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
+
+<footer>© 2026 MOHAMED IBRAHIM ELKHODARY · SIGNAL VERIFIED</footer>
+
+<script>
+// theme toggle, persisted
+(function(){
+  var root = document.documentElement;
+  var saved = localStorage.getItem('portfolio-theme');
+  if(saved){ root.setAttribute('data-theme', saved); }
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('portfolio-theme', next);
+  });
+})();
+
+// scroll reveal for sections + via nodes
+(function(){
+  var targets = document.querySelectorAll('.section');
+  if(!('IntersectionObserver' in window)){
+    targets.forEach(function(t){ t.classList.add('is-active'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-active');
+      }
+    });
+  }, { threshold: 0.25 });
+  targets.forEach(function(t){ io.observe(t); });
+})();
+</script>
 </body>
 </html>
